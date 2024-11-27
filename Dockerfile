@@ -13,8 +13,8 @@ ENV RELAY_ACCOUNTING_START="day 00:00"
 ENV RELAY_MAX_MEM="512 MB"
 
 # add group/user tor with ID
-RUN addgroup -g 1000 -S tor && \
-    adduser -u 1000 -S tor -G tor
+RUN addgroup -g 100 -S tor && \
+    adduser -u 99 -S tor -G tor
 
 RUN apk --no-cache add \
 	bash \
