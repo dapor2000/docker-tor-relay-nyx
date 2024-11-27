@@ -1,5 +1,5 @@
-FROM alpine:3.9.3
-LABEL maintainer="jarlave <jarlave@pm.me>"
+FROM alpine:latest
+LABEL maintainer="dapor <tor@dapor.de>"
 
 ENV RELAY_NICKNAME ChangeMe
 ENV RELAY_TYPE middle
