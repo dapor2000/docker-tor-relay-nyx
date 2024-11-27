@@ -28,8 +28,9 @@ COPY torrc.middle /etc/tor/torrc.middle
 COPY torrc.exit /etc/tor/torrc.exit
 
 # copy the run script
-COPY run.sh /run.sh
+ADD run.sh /run.sh
 RUN chmod ugo+rx /run.sh
+RUN chmod 777 /run.sh
 
 EXPOSE 9001
 
@@ -42,6 +43,10 @@ USER tor
 VOLUME ["/var/lib/tor"]
 RUN chown -R tor /var/lib/tor
 
-ENTRYPOINT [ "/run.sh" ]
+RUN ls -la /
+
+
+#ENTRYPOINT [ "/run.sh" ]
+ENTRYPOINT ["sh", "-c", "/run.sh"]
 
 
