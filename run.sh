@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 set -e
 set -o pipefail
 
@@ -20,3 +20,4 @@ for relaytype in bridge middle exit; do
 done
 
 exec tor -f "/etc/tor/torrc.${RELAY_TYPE}"
+

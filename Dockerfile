@@ -1,16 +1,16 @@
 FROM alpine:latest
-LABEL maintainer="dapor <tor@dapor.de>"
+LABEL maintainer="dapor <tor-relay@dapor.de>"
 
-ENV RELAY_NICKNAME ChangeMe
-ENV RELAY_TYPE middle
-ENV RELAY_BANDWIDTH_RATE 100 KBytes
-ENV RELAY_BANDWIDTH_BURST 200 KBytes
-ENV RELAY_ORPORT 9001
-ENV RELAY_DIRPORT 9030
-ENV RELAY_CTRLPORT 9051
-ENV RELAY_ACCOUNTING_MAX 1 GBytes
-ENV RELAY_ACCOUNTING_START day 00:00
-ENV RELAY_MAX_MEM 512 MB
+ENV RELAY_NICKNAME=ChangeMe
+ENV RELAY_TYPE=middle
+ENV RELAY_BANDWIDTH_RATE="100 KBytes"
+ENV RELAY_BANDWIDTH_BURST="200 KBytes"
+ENV RELAY_ORPORT=9001
+ENV RELAY_DIRPORT=9030
+ENV RELAY_CTRLPORT=9051
+ENV RELAY_ACCOUNTING_MAX="1 GBytes"
+ENV RELAY_ACCOUNTING_START="day 00:00"
+ENV RELAY_MAX_MEM="512 MB"
 
 # add group/user tor with ID
 RUN addgroup -g 1000 -S tor && \
@@ -18,18 +18,9 @@ RUN addgroup -g 1000 -S tor && \
 
 RUN apk --no-cache add \
 	bash \
-	tor
-
-# install python3 and nyx
-RUN apk add --no-cache python3 && \
-    python3 -m ensurepip && \
-    rm -r /usr/lib/python*/ensurepip && \
-    pip3 install --upgrade pip setuptools && \
-    if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi && \
-    if [[ ! -e /usr/bin/python ]]; then ln -sf /usr/bin/python3 /usr/bin/python; fi && \
-    rm -r /root/.cache
-
-RUN pip install nyx
+	tor \
+    nyx \
+    htop
 
 # copy in our torrc files
 COPY torrc.bridge /etc/tor/torrc.bridge
@@ -47,7 +38,10 @@ RUN chown -R tor /etc/tor
 
 USER tor
 
+
 VOLUME ["/var/lib/tor"]
 RUN chown -R tor /var/lib/tor
 
 ENTRYPOINT [ "/run.sh" ]
+
+
