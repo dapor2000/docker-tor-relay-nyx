@@ -21,3 +21,5 @@ done
 
 exec tor -f "/etc/tor/torrc.${RELAY_TYPE}"
 
+
+
